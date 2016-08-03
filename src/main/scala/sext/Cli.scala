@@ -14,7 +14,7 @@ object Cli {
    *       case Array(a, b, c) => (a.toInt, b.toLong, c)
    *     }
    * }}}
-   * @param args The value of `args` field provided by [[scala.App]]
+   * @param args The value of `args` field provided by scala.App
    * @param defaults Default values for unspecified args
    * @param process A function which will process a complete list of args with defaults provided for skipped args
    * @tparam Z Result of `process` function

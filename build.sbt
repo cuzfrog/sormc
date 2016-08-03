@@ -12,10 +12,10 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.scala-lang" % "scala-compiler" % "2.11.8",
+  "org.scala-lang" % "scala-compiler" % "2.11.8" % "compile",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.1.0",
   "com.google.guava" % "guava" % "13.0.1",
-  "org.joda" % "joda-convert" % "1.2",
+  "org.joda" % "joda-convert" % "1.2" % "compile",
   "joda-time" % "joda-time" % "2.9.4",
   "com.mchange" % "c3p0" % "0.9.5.2"
 )

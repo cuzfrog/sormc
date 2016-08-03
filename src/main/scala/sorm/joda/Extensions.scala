@@ -4,7 +4,7 @@ import org.joda.time._
 import sext._, embrace._
 
 object Extensions {
-  
+
   implicit class DateTimeToJava ( val self : DateTime ) extends AnyVal {
     def toJava = new java.sql.Timestamp( self.getMillis )
   }
