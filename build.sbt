@@ -21,3 +21,6 @@ libraryDependencies ++= Seq(
 )
 
 reColors := Seq("magenta")
+
+publishTo := Some("My Bintray" at "https://api.bintray.com/maven/cuzfrog/maven/sormc/;publish=1")
+credentials += Credentials("Bintray API Realm", "api.bintray.com", "BINTRAY_USER", "BINTRAY_PASS")
