@@ -4,6 +4,7 @@ import util.Try
 import reflect.runtime.universe._
 import reflect.runtime.currentMirror
 import collection.GenTraversableOnce
+import scala.language.higherKinds
 
 object `package` {
 
@@ -194,7 +195,7 @@ object `package` {
         : (String, String)
         = s.indexOf(splitter) match {
             case -1 => (s, "")
-            case i => s.splitAt(i) match { case (a, b) => (a, b.drop(splitter.size)) }
+            case i => s.splitAt(i) match { case (a, b) => (a, b.drop(splitter.length)) }
           }
     }
 

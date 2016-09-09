@@ -6,9 +6,10 @@ This is my altered version of [Sorm](http://sorm-framework.org/).
 
 ###Change:
 
-1.Use sbt to build. Speed up resolution by fixing scala version to 2.11.8.
-
-2.Included original author's sub dependent libraries.
+1. Use sbt to build. Speed up resolution by fixing scala version to 2.11.8.
+2. Included original author's sub dependent libraries.
+3. Migrated from joda time to java8 time.
+4. Update scala-logging to 3.4.0.
 
 ###Use:
 
@@ -21,6 +22,6 @@ Resolver:
 
 Artifact:
 
-    libraryDependencies += "com.github.cuzfrog" %% "sormc" % "1.0.2"
+    libraryDependencies += "com.github.cuzfrog" %% "sormc" % "1.0.3"
 
 

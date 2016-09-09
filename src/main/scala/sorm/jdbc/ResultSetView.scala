@@ -84,9 +84,9 @@ class ResultSetView
             }
         if( rs.wasNull() ) null
         else r match {
-          case r : java.sql.Date => r.toJoda
-          case r : java.sql.Time => r.toJoda
-          case r : java.sql.Timestamp => r.toJoda
+          case r : java.sql.Date => r.toJava8
+          case r : java.sql.Time => r.toJava8
+          case r : java.sql.Timestamp => r.toJava8
           case _ => r
         }
       }
