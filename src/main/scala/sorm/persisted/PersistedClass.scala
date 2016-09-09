@@ -6,6 +6,8 @@ import reflection._
 import sext._, embrace._
 import com.typesafe.scalalogging.{StrictLogging => Logging}
 
+import scala.language.reflectiveCalls
+
 object PersistedClass extends Logging {
 
   import reflect.runtime.universe._
@@ -35,7 +37,7 @@ object PersistedClass extends Logging {
         = "val id : Long" +: sourceArgSignatures
 
       val copyMethodArgSignatures
-        = sourceArgs.map{ case (n, r) => 
+        = sourceArgs.map{ case (n, r) =>
             n + " : " + r.signature + " = " + n
           }
 
@@ -80,9 +82,7 @@ object PersistedClass extends Logging {
           "override def equals ( other : Any )\n" +
           ( "= " +
             ( "other match {\n" +
-              ( "case other : " + Reflection[Persisted].signature + " =>\n" + (
-                  "id == other.id && super.equals(other)"
-                ).indent(2) + "\n" +
+              ( "case other : " + Reflection[Persisted].signature + " =>\n" + "id == other.id && super.equals(other)".indent(2) + "\n" +
                 "case _ =>\n" +
                 "false".indent(2)
               ).indent(2) + "\n" +

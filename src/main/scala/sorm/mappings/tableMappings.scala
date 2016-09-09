@@ -1,12 +1,14 @@
 package sorm.mappings
 
-import sext._, embrace._
-
+import sext._
+import embrace._
 import sorm._
 import driver.DriverConnection
 import reflection.Reflection
 import core._
 import ddl._
+
+import scala.language.postfixOps
 
 sealed trait TableMapping extends CompositeMapping with Querying {
 

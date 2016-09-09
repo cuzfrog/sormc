@@ -3,7 +3,7 @@ package sorm.driver
 import java.sql.ResultSet
 
 import embrace._
-import org.joda.time.DateTime
+import java.time.LocalDateTime
 import sext._
 import sorm.core.SormException
 import sorm.ddl._
@@ -174,10 +174,10 @@ class Oracle(protected val connection : JdbcConnection)
   }
 
 
-  override def now(): DateTime = connection
+  override def now(): LocalDateTime = connection
     .executeQuery(Statement("SELECT CURRENT_TIMESTAMP FROM DUAL"))()
     .head.head
-    .asInstanceOf[DateTime]
+    .asInstanceOf[LocalDateTime]
 
 
   override protected def foreingKeyDdl ( fk : ForeignKey )

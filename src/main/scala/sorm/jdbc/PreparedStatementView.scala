@@ -1,7 +1,7 @@
 package sorm.jdbc
 
 import java.sql.PreparedStatement
-import org.joda.time._
+import java.time._
 
 import sorm._
 import joda.Extensions._
@@ -27,9 +27,9 @@ class PreparedStatementView
           case v: Float                => s.setFloat(i, v)
           case v: Double               => s.setDouble(i, v)
           case v: BigDecimal           => s.setBigDecimal(i, v.bigDecimal)
-          case v: LocalDate            => s.setDate(i, v.toJava)
-          case v: LocalTime            => s.setTime(i, v.toJava)
-          case v: DateTime             => s.setTimestamp(i, v.toJava)
+          case v: LocalDate            => s.setDate(i, v.toJavaSql)
+          case v: LocalTime            => s.setTime(i, v.toJavaSql)
+          case v: LocalDateTime             => s.setTimestamp(i, v.toJavaSql)
           case null                    => s.setNull(i, java.sql.Types.NULL)
           case _                       => ???
         }

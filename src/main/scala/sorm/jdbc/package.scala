@@ -2,16 +2,19 @@ package sorm.jdbc
 
 import sorm._
 import core.SormException
-import java.sql.{ResultSet, PreparedStatement, Connection, Statement => JStatement}
-import org.joda.time._
+import java.sql.{Connection, PreparedStatement, ResultSet, Statement => JStatement}
+import java.time._
 
-import sext._, embrace._
+import sext._
+import embrace._
+
+import scala.language.implicitConversions
 
 object `package` {
 
-  implicit def connectionAdapter(x: Connection) = new JdbcConnection(x)
-  implicit def preparedStatementAdapter(x: PreparedStatement) = new PreparedStatementView(x)
-  implicit def resultSetAdapter(x: ResultSet) = new ResultSetView(x)
+  implicit def connectionAdapter(x: Connection):JdbcConnection = new JdbcConnection(x)
+  implicit def preparedStatementAdapter(x: PreparedStatement):PreparedStatementView = new PreparedStatementView(x)
+  implicit def resultSetAdapter(x: ResultSet):ResultSetView = new ResultSetView(x)
 
 
   type JdbcType = Int
@@ -33,7 +36,7 @@ object `package` {
           case _ : Double     => DOUBLE
           case _ : LocalDate  => DATE
           case _ : LocalTime  => TIME
-          case _ : DateTime   => TIMESTAMP
+          case _ : LocalDateTime   => TIMESTAMP
           case null           => NULL
           case _              => throw new SormException("Value of unsupported type `" + v.getClass + "`: " + v)
         }

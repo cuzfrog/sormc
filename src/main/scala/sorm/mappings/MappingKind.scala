@@ -47,12 +47,12 @@ object MappingKind {
           if (reflection <:< Reflection[AnyVal])
           || (reflection <:< Reflection[String])
           || (reflection <:< Reflection[BigDecimal])
-          || (reflection <:< Reflection[org.joda.time.DateTime])
-          || (reflection <:< Reflection[org.joda.time.LocalDate])
-          || (reflection <:< Reflection[org.joda.time.LocalTime])
+          || (reflection <:< Reflection[java.time.LocalDateTime])
+          || (reflection <:< Reflection[java.time.LocalDate])
+          || (reflection <:< Reflection[java.time.LocalTime])
           => Value
         case _
-          if (reflection <:< Reflection[Enumeration#Value])
+          if reflection <:< Reflection[Enumeration#Value]
           => Enum
         case _
           if (reflection <:< Reflection[Tuple1[_]])

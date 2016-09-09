@@ -1,8 +1,10 @@
 package sorm.abstractSql
 
-import sext._, embrace._
-
+import sext._
+import embrace._
 import AbstractSql._
+
+import scala.language.postfixOps
 
 object Compositing {
 

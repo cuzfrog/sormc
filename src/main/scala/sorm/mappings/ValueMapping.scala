@@ -5,7 +5,7 @@ import driver.DriverConnection
 import core._
 import reflection._
 import ddl._
-import org.joda.time._
+import java.time._
 
 class ValueMapping
   ( val reflection : Reflection,
@@ -36,7 +36,7 @@ class ValueMapping
             ⇒ ColumnType.Float
           case _ if reflection <:< Reflection[Double]
             ⇒ ColumnType.Double
-          case _ if reflection <:< Reflection[DateTime]
+          case _ if reflection <:< Reflection[LocalDateTime]
             ⇒ ColumnType.TimeStamp
           case _ if reflection <:< Reflection[LocalTime]
             ⇒ ColumnType.Time
@@ -51,22 +51,20 @@ class ValueMapping
         def isKeyPart
           ( m : Mapping )
           : Boolean
-          = m.membership
-              .map{
-                case Membership.EntityId(_) =>
-                  true
-                case Membership.EntityProperty(n, e) =>
-                  val s = e.settings(e.reflection)
-                  s.uniqueKeys.view.flatten.exists(_ == n) ||
-                  s.indexes.view.flatten.exists(_ == n)
-                case Membership.TupleItem(_, m) =>
-                  isKeyPart(m)
-                case Membership.OptionToNullableItem(m) =>
-                  isKeyPart(m)
-                case _ =>
-                  false
-              }
-              .getOrElse(false)
+          = m.membership.exists {
+          case Membership.EntityId(_) =>
+            true
+          case Membership.EntityProperty(n, e) =>
+            val s = e.settings(e.reflection)
+            s.uniqueKeys.view.flatten.exists(_ == n) ||
+              s.indexes.view.flatten.exists(_ == n)
+          case Membership.TupleItem(_, `m`) =>
+            isKeyPart(m)
+          case Membership.OptionToNullableItem(`m`) =>
+            isKeyPart(m)
+          case _ =>
+            false
+        }
 
         isKeyPart(this)
       }

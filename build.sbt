@@ -32,7 +32,6 @@ lazy val root = (project in file("."))
       "org.scala-lang" % "scala-compiler" % "2.11.8" % "compile",
       "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0",
       "com.google.guava" % "guava" % "13.0.1",
-      "org.joda" % "joda-convert" % "1.2" % "compile",
       "com.mchange" % "c3p0" % "0.9.5.2",
       "com.h2database" % "h2" % "1.4.191" % "test"
     ),
