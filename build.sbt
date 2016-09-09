@@ -10,7 +10,7 @@ resolvers ++= Seq(
 shellPrompt in ThisBuild := { state => Project.extract(state).currentRef.project + "> " }
 
 lazy val commonSettings = Seq(
-  organization := "org.glba-cmcc",
+  organization := "com.github.cuzfrog",
   version := "1.0.3",
   scalaVersion := "2.11.8",
   logBuffered in Test := false,
