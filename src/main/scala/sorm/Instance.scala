@@ -66,7 +66,7 @@ object Instance {
       * @tparam T The entity type
       * @return The accessor object. An abstraction over all kinds of supported SELECT-queries.
       */
-    def query[T <: AnyRef : TypeTag]
+    def query[T <: AnyRef : TypeTag]: Querier[T]
     = Querier[T](mapping, connector)
 
     /**
@@ -163,7 +163,7 @@ object Instance {
       */
     def delete
     [T <: AnyRef : TypeTag]
-    (value: T)
+    (value: T): Unit
     = connector.withConnection { cx => mapping[T].delete(value, cx) }
 
     /**
@@ -183,8 +183,8 @@ object Instance {
     /**
       * Current time at DB server in milliseconds. Effectively fetches the date only once to calculate the deviation.
       */
-    @deprecated("now().getMillis should be used instead")
-    def nowMillis() = {
+    @deprecated("now().getMillis should be used instead","original")
+    def nowMillis(): Long = {
       val zdt=now().atZone(ZoneId.systemDefault())
       zdt.toInstant.toEpochMilli
     }
@@ -201,7 +201,7 @@ object Instance {
     /**
       * Free all the underlying resources. Useful in multi-instance tests
       */
-    def close() = connector.close()
+    def close(): Unit = connector.close()
   }
 
   abstract class Initialization
@@ -221,7 +221,7 @@ object Instance {
     //  Validate entities (must be prior to mappings creation due to possible mappingkind detection errors):
     validateEntities(entities.toSeq).headOption.map(new ValidationException(_)).foreach(throw _)
 
-    protected val mappings
+    protected val mappings: Map[Reflection, EntityMapping]
     = {
       val settings
       = entities.view

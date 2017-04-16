@@ -1,7 +1,5 @@
 package sorm.ddl
 
-import sext._, embrace._
-
 object `package` {
 
   case class Table
@@ -53,8 +51,8 @@ object `package` {
 
   }
 
-  @deprecated def jdbcType ( t : ColumnType )
-    = {
+  @deprecated("author did.","original") def jdbcType ( t : ColumnType ): Int
+  = {
       import java.sql.Types._
       import ColumnType._
       t match {

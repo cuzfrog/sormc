@@ -2,50 +2,51 @@ package sorm.reflection
 
 import reflect.runtime.universe._
 import reflect.runtime.{currentMirror => mirror}
-import sext._, embrace._
+import sext._
 import ScalaApi._
+
 import util.hashing.MurmurHash3
-import collection.immutable.ListMap
+import scala.collection.immutable
 
 class Reflection ( protected val ambiguousType : Type ) {
   
-  protected val t =
+  protected val t: Type =
     ambiguousType match {
       case t : NullaryMethodType => t.resultType
-      case t => t
+      case tpe => tpe
     }  
   
   protected def s : Symbol = t.s
 
-  override def toString = t.toString
+  override def toString: String = t.toString
 
-  override def hashCode
-    = MurmurHash3.finalizeHash(t.typeSymbol.hashCode, generics.hashCode)
+  override def hashCode: Int
+  = MurmurHash3.finalizeHash(t.typeSymbol.hashCode, generics.hashCode)
 
-  override def equals ( other : Any )
-    = other match {
+  override def equals ( other : Any ): Boolean
+  = other match {
         case other : Reflection =>
           t =:= other.t
         case _ =>
           false
       }
 
-  def <:< ( other : Reflection ) = t <:< other.t
-  def =:= ( other : Reflection ) = t =:= other.t
+  def <:< ( other : Reflection ): Boolean = t <:< other.t
+  def =:= ( other : Reflection ): Boolean = t =:= other.t
 
-  def properties
-    = t.properties
+  def properties: Map[String, Reflection]
+  = t.properties
         .map{ s => s.decodedName -> Reflection(s.t) }
         .toMap
-  def generics
-    = t match {
+  def generics: immutable.IndexedSeq[Reflection]
+  = t match {
         case t : TypeRef => t.args.view.map(Reflection(_)).toIndexedSeq
         case _ => Vector()
       }
-  def name
-    = s.decodedName
-  def fullName
-    = s.ancestors.foldRight(""){ (s, text) =>
+  def name: String
+  = s.decodedName
+  def fullName: String
+  = s.ancestors.foldRight(""){ (s, text) =>
         if( text == "" ) s.decodedName
         else if( s.owner.isClass ) text + "#" + s.decodedName
         else text + "." + s.decodedName
@@ -71,14 +72,14 @@ class Reflection ( protected val ambiguousType : Type ) {
 
   def primaryConstructorArguments
     : List[(String, Reflection)]
-    = t.constructors.head.paramss.flatten
+    = t.constructors.head.paramLists.flatten
         .map{ s => s.decodedName -> Reflection(s.t) }
 
   /**
    * Either the type itself if it's not mixed in or the first of its parents
    */
-  def mixinBasis
-    = t match {
+  def mixinBasis: Reflection
+  = t match {
         case t : RefinedType => Reflection(t.parents.head)
         case _ => this
       }
@@ -100,13 +101,13 @@ class Reflection ( protected val ambiguousType : Type ) {
         case _ => None
       }
 
-  def isCaseClass
-    = s match {
+  def isCaseClass: Boolean
+  = s match {
         case s : ClassSymbol => s.isCaseClass
         case _ => false
       }
 
-  def javaClass = t.javaClass
+  def javaClass: Class[_] = t.javaClass
 }
 object Reflection {
   def apply[ A : TypeTag ]  : Reflection = Reflection(typeOf[A])

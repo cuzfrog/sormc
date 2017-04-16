@@ -36,7 +36,7 @@ build:
     - script:
         name: deploy
         code: |
-          sbt publish
+          sbt + publish
     - script:
         name: store cache
         code: |      

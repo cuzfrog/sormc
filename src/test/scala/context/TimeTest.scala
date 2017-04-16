@@ -14,7 +14,10 @@ case class Genre(name: String)
 import sorm._
 
 object Db extends Instance(
-  entities = Set(Entity[Artist](), Entity[Genre]()),
+  entities = Set(
+    Entity[Artist](),
+    Entity[Genre]()
+  ),
   url = "jdbc:h2:mem:test"
 )
 
